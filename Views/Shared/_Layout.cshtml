@@ -6,10 +6,11 @@
     <title>@ViewData["Title"] - Student Dashboard</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/courses.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/StudentDashboard.styles.css" asp-append-version="true" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+    <script src="https://unpkg.com/@@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
 </head>
 <body>
     <div class="dashboard-container">
@@ -84,15 +85,13 @@
                     <i class="fas fa-comments"></i>
                 </li>
                 <li class="menu-item">
-                    <i class="fas fa-calendar"></i>
+                    <a href="/Courses"><i class="fas fa-calendar"></i></a>
                 </li>
                 <li class="menu-item">
                     <i class="fas fa-map-marker-alt"></i>
                 </li>
                 <li class="menu-item">
-                    <a href="@Url.Action("Index", "Profile")">
-                        <i class="fas fa-user"></i>
-                    </a>
+                    <a href="/Profile"><i class="fas fa-user"></i></a>
                 </li>
                 <li class="menu-item">
                     <i class="fas fa-credit-card"></i>
@@ -119,7 +118,6 @@
     </div>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/dashboard.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

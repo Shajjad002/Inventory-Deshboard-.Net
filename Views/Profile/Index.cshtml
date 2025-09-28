@@ -1,5 +1,4 @@
-@model StudentDashboard.Models.Student
-
+@model StudentDashboard.Models.User
 @{
     ViewData["Title"] = "Profile";
 }
@@ -7,201 +6,197 @@
 <div class="profile-container">
     <div class="profile-header">
         <div class="profile-avatar-section">
-            <img src="@(Model.User.Avatar ?? "/images/avatar.png")" alt="Profile Avatar" class="profile-avatar-large" />
-            <button class="change-avatar-btn">
-                <i class="fas fa-camera"></i>
-                Change Avatar
-            </button>
+            <div class="profile-avatar-large">
+                <img src="@(Model.Avatar ?? "/images/avatar.png")" alt="Profile" id="profileImage" />
+                <button class="avatar-edit-btn" onclick="document.getElementById('avatarInput').click()">
+                    <i class="fas fa-camera"></i>
+                </button>
+                <input type="file" id="avatarInput" accept="image/*" style="display: none;" />
+            </div>
+            <h1>@Model.FirstName @Model.LastName</h1>
+            <p class="profile-role">@Model.Role</p>
         </div>
-        <div class="profile-info">
-            <h1>@Model.User.FirstName @Model.User.LastName</h1>
-            <p class="profile-email">@Model.User.Email</p>
-            <p class="profile-group">Group: @(Model.Group ?? "Not assigned")</p>
-            <p class="profile-student-number">Student Number: @Model.StudentNumber</p>
-        </div>
-        <div class="profile-actions">
-            <a href="@Url.Action("Edit")" class="btn btn-primary">
-                <i class="fas fa-edit"></i>
-                Edit Profile
-            </a>
-            <a href="@Url.Action("Settings")" class="btn btn-secondary">
-                <i class="fas fa-cog"></i>
-                Settings
-            </a>
+        <div class="profile-stats">
+            <div class="stat-item">
+                <span class="stat-number">@Model.CreatedAt.ToString("MMM yyyy")</span>
+                <span class="stat-label">Member Since</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">@(Model.LastLoginAt?.ToString("MMM dd") ?? "Never")</span>
+                <span class="stat-label">Last Login</span>
+            </div>
         </div>
     </div>
 
     <div class="profile-content">
         <div class="profile-tabs">
-            <button class="tab-btn active" data-tab="overview">Overview</button>
-            <button class="tab-btn" data-tab="courses">Courses</button>
-            <button class="tab-btn" data-tab="achievements">Achievements</button>
-            <button class="tab-btn" data-tab="activity">Activity</button>
+            <button class="tab-btn active" data-tab="personal">Personal Info</button>
+            <button class="tab-btn" data-tab="academic">Academic</button>
+            <button class="tab-btn" data-tab="settings">Settings</button>
         </div>
 
         <div class="tab-content">
-            <!-- Overview Tab -->
-            <div class="tab-pane active" id="overview">
-                <div class="overview-grid">
-                    <div class="overview-card">
-                        <h3>Academic Progress</h3>
-                        <div class="progress-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">GPA</span>
-                                <span class="stat-value">3.8</span>
+            <!-- Personal Information Tab -->
+            <div class="tab-panel active" id="personal">
+                <div class="form-section">
+                    <h3>Personal Information</h3>
+                    <form id="personalForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" id="firstName" name="firstName" value="@Model.FirstName" />
                             </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Credits</span>
-                                <span class="stat-value">45</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Rank</span>
-                                <span class="stat-value">5th</span>
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" id="lastName" name="lastName" value="@Model.LastName" />
                             </div>
                         </div>
-                    </div>
-
-                    <div class="overview-card">
-                        <h3>Recent Activity</h3>
-                        <div class="activity-list">
-                            <div class="activity-item">
-                                <i class="fas fa-check-circle text-success"></i>
-                                <span>Completed Assignment: Web Design Basics</span>
-                                <span class="activity-time">2 hours ago</span>
-                            </div>
-                            <div class="activity-item">
-                                <i class="fas fa-trophy text-warning"></i>
-                                <span>Earned Achievement: Perfect Attendance</span>
-                                <span class="activity-time">1 day ago</span>
-                            </div>
-                            <div class="activity-item">
-                                <i class="fas fa-star text-info"></i>
-                                <span>Received 50 points for participation</span>
-                                <span class="activity-time">3 days ago</span>
-                            </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" value="@Model.Email" readonly />
                         </div>
-                    </div>
-
-                    <div class="overview-card">
-                        <h3>Upcoming Events</h3>
-                        <div class="events-list">
-                            <div class="event-item">
-                                <div class="event-date">
-                                    <span class="day">15</span>
-                                    <span class="month">Jan</span>
-                                </div>
-                                <div class="event-details">
-                                    <span class="event-title">UX Design Workshop</span>
-                                    <span class="event-time">10:00 AM - 12:00 PM</span>
-                                </div>
-                            </div>
-                            <div class="event-item">
-                                <div class="event-date">
-                                    <span class="day">18</span>
-                                    <span class="month">Jan</span>
-                                </div>
-                                <div class="event-details">
-                                    <span class="event-title">Final Exam</span>
-                                    <span class="event-time">2:00 PM - 4:00 PM</span>
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <label for="phoneNumber">Phone Number</label>
+                            <input type="tel" id="phoneNumber" name="phoneNumber" value="@(Model.PhoneNumber ?? "")" />
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <textarea id="address" name="address" rows="3">@(Model.Address ?? "")</textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Save Changes</button>
+                    </form>
                 </div>
             </div>
 
-            <!-- Courses Tab -->
-            <div class="tab-pane" id="courses">
-                <div class="courses-grid">
-                    @foreach (var enrollment in Model.Enrollments)
-                    {
-                        <div class="course-card">
-                            <div class="course-header">
-                                <h4>@enrollment.Course.Name</h4>
-                                <span class="course-code">@enrollment.Course.Code</span>
+            <!-- Academic Information Tab -->
+            <div class="tab-panel" id="academic">
+                <div class="academic-section">
+                    <h3>Academic Progress</h3>
+                    <div class="academic-stats">
+                        <div class="academic-stat">
+                            <div class="stat-icon">
+                                <i class="fas fa-graduation-cap"></i>
                             </div>
-                            <div class="course-details">
-                                <p>@enrollment.Course.Description</p>
-                                <div class="course-meta">
-                                    <span class="course-level">@enrollment.Course.Level</span>
-                                    <span class="course-format">@enrollment.Course.Format</span>
-                                    <span class="course-duration">@enrollment.Course.Duration months</span>
+                            <div class="stat-info">
+                                <span class="stat-value">3.8</span>
+                                <span class="stat-label">Current GPA</span>
+                            </div>
+                        </div>
+                        <div class="academic-stat">
+                            <div class="stat-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value">24</span>
+                                <span class="stat-label">Credits Completed</span>
+                            </div>
+                        </div>
+                        <div class="academic-stat">
+                            <div class="stat-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value">15</span>
+                                <span class="stat-label">Awards Earned</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="courses-section">
+                        <h4>Current Courses</h4>
+                        <div class="course-list">
+                            <div class="course-item">
+                                <div class="course-info">
+                                    <h5>UX/UI Design</h5>
+                                    <p>Advanced Interface Design</p>
                                 </div>
                                 <div class="course-progress">
                                     <div class="progress-bar">
                                         <div class="progress-fill" style="width: 75%"></div>
                                     </div>
-                                    <span class="progress-text">75% Complete</span>
+                                    <span class="progress-text">75%</span>
+                                </div>
+                            </div>
+                            <div class="course-item">
+                                <div class="course-info">
+                                    <h5>Web Development</h5>
+                                    <p>Full Stack Development</p>
+                                </div>
+                                <div class="course-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 60%"></div>
+                                    </div>
+                                    <span class="progress-text">60%</span>
                                 </div>
                             </div>
                         </div>
-                    }
-                </div>
-            </div>
-
-            <!-- Achievements Tab -->
-            <div class="tab-pane" id="achievements">
-                <div class="achievements-grid">
-                    <div class="achievement-card earned">
-                        <i class="fas fa-trophy"></i>
-                        <h4>Perfect Attendance</h4>
-                        <p>Attended all classes for 3 consecutive months</p>
-                        <span class="achievement-date">Earned Jan 15, 2024</span>
-                    </div>
-                    <div class="achievement-card earned">
-                        <i class="fas fa-star"></i>
-                        <h4>Top Performer</h4>
-                        <p>Ranked in top 10% of the class</p>
-                        <span class="achievement-date">Earned Dec 20, 2023</span>
-                    </div>
-                    <div class="achievement-card">
-                        <i class="fas fa-medal"></i>
-                        <h4>Perfect Score</h4>
-                        <p>Get 100% on any assignment</p>
-                        <span class="achievement-date">Not earned yet</span>
-                    </div>
-                    <div class="achievement-card">
-                        <i class="fas fa-fire"></i>
-                        <h4>Streak Master</h4>
-                        <p>Submit assignments on time for 30 days</p>
-                        <span class="achievement-date">Not earned yet</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Activity Tab -->
-            <div class="tab-pane" id="activity">
-                <div class="activity-timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <h4>Assignment Submitted</h4>
-                            <p>Web Design Basics - Final Project</p>
-                            <span class="timeline-time">2 hours ago</span>
+            <!-- Settings Tab -->
+            <div class="tab-panel" id="settings">
+                <div class="settings-section">
+                    <h3>Account Settings</h3>
+                    
+                    <div class="setting-group">
+                        <h4>Change Password</h4>
+                        <form id="passwordForm">
+                            <div class="form-group">
+                                <label for="currentPassword">Current Password</label>
+                                <input type="password" id="currentPassword" name="currentPassword" />
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" id="newPassword" name="newPassword" />
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm New Password</label>
+                                <input type="password" id="confirmPassword" name="confirmPassword" />
+                            </div>
+                            <button type="submit" class="btn-primary">Change Password</button>
+                        </form>
+                    </div>
+
+                    <div class="setting-group">
+                        <h4>Notifications</h4>
+                        <div class="notification-settings">
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked />
+                                <span class="checkmark"></span>
+                                Email notifications
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked />
+                                <span class="checkmark"></span>
+                                Assignment reminders
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" />
+                                <span class="checkmark"></span>
+                                Grade updates
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked />
+                                <span class="checkmark"></span>
+                                Course announcements
+                            </label>
                         </div>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <h4>Grade Received</h4>
-                            <p>UX Design Quiz - 95%</p>
-                            <span class="timeline-time">1 day ago</span>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <h4>Achievement Unlocked</h4>
-                            <p>Perfect Attendance</p>
-                            <span class="timeline-time">3 days ago</span>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <h4>Course Enrolled</h4>
-                            <p>Advanced Web Development</p>
-                            <span class="timeline-time">1 week ago</span>
+
+                    <div class="setting-group">
+                        <h4>Privacy</h4>
+                        <div class="privacy-settings">
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked />
+                                <span class="checkmark"></span>
+                                Show profile to other students
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" />
+                                <span class="checkmark"></span>
+                                Show grades in leaderboard
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -212,19 +207,52 @@
 
 @section Scripts {
     <script>
-        // Tab functionality
+        // Tab switching
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const tabId = this.dataset.tab;
                 
-                // Remove active class from all tabs and panes
+                // Remove active class from all tabs and panels
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
                 
-                // Add active class to clicked tab and corresponding pane
+                // Add active class to clicked tab and corresponding panel
                 this.classList.add('active');
                 document.getElementById(tabId).classList.add('active');
             });
+        });
+
+        // Avatar upload
+        document.getElementById('avatarInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profileImage').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Form submissions
+        document.getElementById('personalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Handle personal info update
+            showNotification('Personal information updated successfully!', 'success');
+        });
+
+        document.getElementById('passwordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (newPassword !== confirmPassword) {
+                showNotification('Passwords do not match!', 'error');
+                return;
+            }
+            
+            // Handle password change
+            showNotification('Password changed successfully!', 'success');
         });
     </script>
 }
