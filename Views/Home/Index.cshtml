@@ -1,0 +1,351 @@
+@model StudentDashboard.Models.DashboardViewModel
+
+<div class="dashboard-grid">
+    <!-- Top Row Widgets -->
+    <div class="widget-row">
+        <!-- Progress GPA Widget -->
+        <div class="widget progress-gpa-widget">
+            <div class="widget-header">
+                <h3>@Model.ProgressGpa.Title</h3>
+                <p>@Model.ProgressGpa.Subtitle</p>
+                <div class="time-filters">
+                    <button class="filter-btn @(Model.ProgressGpa.SelectedPeriod == "Week" ? "active" : "")">Week</button>
+                    <button class="filter-btn @(Model.ProgressGpa.SelectedPeriod == "Month" ? "active" : "")">Month</button>
+                    <button class="filter-btn @(Model.ProgressGpa.SelectedPeriod == "Year" ? "active" : "")">Year</button>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="gpaChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Attendance Widget -->
+        <div class="widget attendance-widget">
+            <div class="widget-header">
+                <h3>@Model.Attendance.Title</h3>
+                <div class="time-filters">
+                    <button class="filter-btn @(Model.Attendance.SelectedPeriod == "Week" ? "active" : "")">Week</button>
+                    <button class="filter-btn @(Model.Attendance.SelectedPeriod == "Month" ? "active" : "")">Month</button>
+                    <button class="filter-btn @(Model.Attendance.SelectedPeriod == "Year" ? "active" : "")">Year</button>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="attendanceChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Homework Widget -->
+        <div class="widget homework-widget">
+            <div class="widget-header">
+                <h3>@Model.Homework.Title</h3>
+            </div>
+            <div class="donut-chart-container">
+                <canvas id="homeworkChart"></canvas>
+                <div class="donut-center">
+                    <span class="donut-number">@Model.Homework.Total</span>
+                </div>
+            </div>
+            <div class="donut-legend">
+                @foreach (var status in Model.Homework.Statuses)
+                {
+                    <div class="legend-item">
+                        <span class="legend-color @status.Color"></span>
+                        <span class="legend-text">@status.Status @status.Count</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Test Widget -->
+        <div class="widget test-widget">
+            <div class="widget-header">
+                <h3>@Model.Test.Title</h3>
+            </div>
+            <div class="donut-chart-container">
+                <canvas id="testChart"></canvas>
+                <div class="donut-center">
+                    <span class="donut-number">@Model.Test.Total</span>
+                </div>
+            </div>
+            <div class="donut-legend">
+                @foreach (var status in Model.Test.Statuses)
+                {
+                    <div class="legend-item">
+                        <span class="legend-color @status.Color"></span>
+                        <span class="legend-text">@status.Status @status.Count</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Calendar Widget -->
+        <div class="widget calendar-widget">
+            <div class="widget-header">
+                <h3>@Model.Calendar.Title</h3>
+                <div class="month-selector">
+                    <select>
+                        <option>@Model.Calendar.SelectedMonth</option>
+                    </select>
+                </div>
+            </div>
+            <div class="calendar-days">
+                @foreach (var day in Model.Calendar.Days)
+                {
+                    <div class="calendar-day @(day.IsToday ? "today" : "")">
+                        <span class="day-name">@day.DayName</span>
+                        <span class="day-number">@day.DayNumber</span>
+                    </div>
+                }
+            </div>
+            <div class="calendar-info">
+                <p>5 January, Wednesday</p>
+            </div>
+            <div class="schedule-list">
+                @foreach (var item in Model.Calendar.TodaySchedule)
+                {
+                    <div class="schedule-item @item.Color">
+                        <span class="schedule-time">@item.Time</span>
+                        <span class="schedule-type">@item.Type</span>
+                        <span class="schedule-title">@item.Title</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Row Widgets -->
+    <div class="widget-row">
+        <!-- Rating Widget -->
+        <div class="widget rating-widget">
+            <div class="widget-header">
+                <h3>@Model.Rating.Title</h3>
+            </div>
+            <div class="rating-content">
+                <div class="rating-card">
+                    <p>Get more rewards and increase your rating!</p>
+                    <div class="user-icons">
+                        <i class="fas fa-user"></i>
+                        <i class="fas fa-user active"></i>
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <button class="rating-btn">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                <div class="rating-ranks">
+                    <div class="rank-item">
+                        <span class="rank-number">@Model.Rating.GroupRank</span>
+                        <span class="rank-label">Group</span>
+                    </div>
+                    <div class="rank-item">
+                        <span class="rank-number">@Model.Rating.FlowRank</span>
+                        <span class="rank-label">Flow</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Course Widget -->
+        <div class="widget course-widget">
+            <div class="widget-header">
+                <h3>@Model.CourseInfo.Title</h3>
+            </div>
+            <div class="course-content">
+                <div class="course-details">
+                    <div class="course-item">
+                        <span class="course-label">Course:</span>
+                        <span class="course-value">@Model.CourseInfo.CourseName</span>
+                    </div>
+                    <div class="course-item">
+                        <span class="course-label">Format:</span>
+                        <span class="course-value">@Model.CourseInfo.Format</span>
+                    </div>
+                    <div class="course-item">
+                        <span class="course-label">Duration:</span>
+                        <span class="course-value">@Model.CourseInfo.Duration</span>
+                    </div>
+                    <div class="course-item">
+                        <span class="course-label">Access:</span>
+                        <span class="course-value access-open">@Model.CourseInfo.Access</span>
+                    </div>
+                    <div class="course-item">
+                        <span class="course-label">Level:</span>
+                        <span class="course-value">@Model.CourseInfo.Level</span>
+                    </div>
+                    <div class="course-item">
+                        <span class="course-label">Next payment:</span>
+                        <span class="course-value">(2 month) @Model.CourseInfo.NextPayment</span>
+                    </div>
+                </div>
+                <div class="payment-card">
+                    <div class="card-placeholder">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <button class="learn-more-btn">
+                        <i class="fas fa-arrow-right"></i>
+                        Learn more...
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rewards Widget -->
+        <div class="widget rewards-widget">
+            <div class="widget-header">
+                <h3>@Model.Rewards.Title</h3>
+                <div class="time-filters">
+                    <button class="filter-btn @(Model.Rewards.SelectedPeriod == "Today" ? "active" : "")">Today</button>
+                    <button class="filter-btn @(Model.Rewards.SelectedPeriod == "Yesterday" ? "active" : "")">Yesterday</button>
+                    <button class="filter-btn @(Model.Rewards.SelectedPeriod == "All" ? "active" : "")">All</button>
+                </div>
+            </div>
+            <div class="rewards-list">
+                @foreach (var reward in Model.Rewards.Rewards)
+                {
+                    <div class="reward-item">
+                        <i class="fas fa-@(reward.Icon == "checkmark" ? "check" : reward.Icon)"></i>
+                        <div class="reward-info">
+                            <span class="reward-type">@reward.Type</span>
+                            <span class="reward-date">(@reward.Date)</span>
+                        </div>
+                        <span class="reward-points">+@reward.Points</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Leaderboard Widget -->
+        <div class="widget leaderboard-widget">
+            <div class="widget-header">
+                <h3>@Model.Leaderboard.Title</h3>
+                <div class="filter-buttons">
+                    <button class="filter-btn @(Model.Leaderboard.SelectedFilter == "Group" ? "active" : "")">Group</button>
+                    <button class="filter-btn @(Model.Leaderboard.SelectedFilter == "All" ? "active" : "")">All</button>
+                </div>
+            </div>
+            <div class="leaderboard-list">
+                @foreach (var entry in Model.Leaderboard.Entries)
+                {
+                    <div class="leaderboard-entry">
+                        <span class="rank">@entry.Rank</span>
+                        <img src="@entry.Avatar" alt="@entry.Name" class="entry-avatar" />
+                        <span class="entry-name">@entry.Name</span>
+                        <span class="entry-score">@entry.Score</span>
+                        <i class="fas fa-star"></i>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // GPA Chart
+        const gpaCtx = document.getElementById('gpaChart').getContext('2d');
+        new Chart(gpaCtx, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.ProgressGpa.DataPoints.Select(x => x.Day))),
+                datasets: [{
+                    data: @Html.Raw(Json.Serialize(Model.ProgressGpa.DataPoints.Select(x => x.Value))),
+                    backgroundColor: '#90EE90',
+                    borderColor: '#90EE90',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 12
+                    }
+                }
+            }
+        });
+
+        // Attendance Chart
+        const attendanceCtx = document.getElementById('attendanceChart').getContext('2d');
+        new Chart(attendanceCtx, {
+            type: 'line',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.Attendance.DataPoints.Select(x => x.Month))),
+                datasets: [{
+                    data: @Html.Raw(Json.Serialize(Model.Attendance.DataPoints.Select(x => x.Percentage))),
+                    borderColor: '#4A90E2',
+                    backgroundColor: 'rgba(74, 144, 226, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+
+        // Homework Donut Chart
+        const homeworkCtx = document.getElementById('homeworkChart').getContext('2d');
+        new Chart(homeworkCtx, {
+            type: 'doughnut',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.Homework.Statuses.Select(x => x.Status))),
+                datasets: [{
+                    data: @Html.Raw(Json.Serialize(Model.Homework.Statuses.Select(x => x.Count))),
+                    backgroundColor: ['#90EE90', '#FFA500', '#4A90E2', '#FF6B6B']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // Test Donut Chart
+        const testCtx = document.getElementById('testChart').getContext('2d');
+        new Chart(testCtx, {
+            type: 'doughnut',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.Test.Statuses.Select(x => x.Status))),
+                datasets: [{
+                    data: @Html.Raw(Json.Serialize(Model.Test.Statuses.Select(x => x.Count))),
+                    backgroundColor: ['#90EE90', '#FFA500', '#FF6B6B']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
+}
