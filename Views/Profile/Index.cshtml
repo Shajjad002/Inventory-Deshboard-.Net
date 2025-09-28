@@ -1,0 +1,230 @@
+@model StudentDashboard.Models.Student
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="profile-avatar-section">
+            <img src="@(Model.User.Avatar ?? "/images/avatar.png")" alt="Profile Avatar" class="profile-avatar-large" />
+            <button class="change-avatar-btn">
+                <i class="fas fa-camera"></i>
+                Change Avatar
+            </button>
+        </div>
+        <div class="profile-info">
+            <h1>@Model.User.FirstName @Model.User.LastName</h1>
+            <p class="profile-email">@Model.User.Email</p>
+            <p class="profile-group">Group: @(Model.Group ?? "Not assigned")</p>
+            <p class="profile-student-number">Student Number: @Model.StudentNumber</p>
+        </div>
+        <div class="profile-actions">
+            <a href="@Url.Action("Edit")" class="btn btn-primary">
+                <i class="fas fa-edit"></i>
+                Edit Profile
+            </a>
+            <a href="@Url.Action("Settings")" class="btn btn-secondary">
+                <i class="fas fa-cog"></i>
+                Settings
+            </a>
+        </div>
+    </div>
+
+    <div class="profile-content">
+        <div class="profile-tabs">
+            <button class="tab-btn active" data-tab="overview">Overview</button>
+            <button class="tab-btn" data-tab="courses">Courses</button>
+            <button class="tab-btn" data-tab="achievements">Achievements</button>
+            <button class="tab-btn" data-tab="activity">Activity</button>
+        </div>
+
+        <div class="tab-content">
+            <!-- Overview Tab -->
+            <div class="tab-pane active" id="overview">
+                <div class="overview-grid">
+                    <div class="overview-card">
+                        <h3>Academic Progress</h3>
+                        <div class="progress-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">GPA</span>
+                                <span class="stat-value">3.8</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Credits</span>
+                                <span class="stat-value">45</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Rank</span>
+                                <span class="stat-value">5th</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="overview-card">
+                        <h3>Recent Activity</h3>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <i class="fas fa-check-circle text-success"></i>
+                                <span>Completed Assignment: Web Design Basics</span>
+                                <span class="activity-time">2 hours ago</span>
+                            </div>
+                            <div class="activity-item">
+                                <i class="fas fa-trophy text-warning"></i>
+                                <span>Earned Achievement: Perfect Attendance</span>
+                                <span class="activity-time">1 day ago</span>
+                            </div>
+                            <div class="activity-item">
+                                <i class="fas fa-star text-info"></i>
+                                <span>Received 50 points for participation</span>
+                                <span class="activity-time">3 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="overview-card">
+                        <h3>Upcoming Events</h3>
+                        <div class="events-list">
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <span class="day">15</span>
+                                    <span class="month">Jan</span>
+                                </div>
+                                <div class="event-details">
+                                    <span class="event-title">UX Design Workshop</span>
+                                    <span class="event-time">10:00 AM - 12:00 PM</span>
+                                </div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <span class="day">18</span>
+                                    <span class="month">Jan</span>
+                                </div>
+                                <div class="event-details">
+                                    <span class="event-title">Final Exam</span>
+                                    <span class="event-time">2:00 PM - 4:00 PM</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Courses Tab -->
+            <div class="tab-pane" id="courses">
+                <div class="courses-grid">
+                    @foreach (var enrollment in Model.Enrollments)
+                    {
+                        <div class="course-card">
+                            <div class="course-header">
+                                <h4>@enrollment.Course.Name</h4>
+                                <span class="course-code">@enrollment.Course.Code</span>
+                            </div>
+                            <div class="course-details">
+                                <p>@enrollment.Course.Description</p>
+                                <div class="course-meta">
+                                    <span class="course-level">@enrollment.Course.Level</span>
+                                    <span class="course-format">@enrollment.Course.Format</span>
+                                    <span class="course-duration">@enrollment.Course.Duration months</span>
+                                </div>
+                                <div class="course-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 75%"></div>
+                                    </div>
+                                    <span class="progress-text">75% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Achievements Tab -->
+            <div class="tab-pane" id="achievements">
+                <div class="achievements-grid">
+                    <div class="achievement-card earned">
+                        <i class="fas fa-trophy"></i>
+                        <h4>Perfect Attendance</h4>
+                        <p>Attended all classes for 3 consecutive months</p>
+                        <span class="achievement-date">Earned Jan 15, 2024</span>
+                    </div>
+                    <div class="achievement-card earned">
+                        <i class="fas fa-star"></i>
+                        <h4>Top Performer</h4>
+                        <p>Ranked in top 10% of the class</p>
+                        <span class="achievement-date">Earned Dec 20, 2023</span>
+                    </div>
+                    <div class="achievement-card">
+                        <i class="fas fa-medal"></i>
+                        <h4>Perfect Score</h4>
+                        <p>Get 100% on any assignment</p>
+                        <span class="achievement-date">Not earned yet</span>
+                    </div>
+                    <div class="achievement-card">
+                        <i class="fas fa-fire"></i>
+                        <h4>Streak Master</h4>
+                        <p>Submit assignments on time for 30 days</p>
+                        <span class="achievement-date">Not earned yet</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity Tab -->
+            <div class="tab-pane" id="activity">
+                <div class="activity-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>Assignment Submitted</h4>
+                            <p>Web Design Basics - Final Project</p>
+                            <span class="timeline-time">2 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>Grade Received</h4>
+                            <p>UX Design Quiz - 95%</p>
+                            <span class="timeline-time">1 day ago</span>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>Achievement Unlocked</h4>
+                            <p>Perfect Attendance</p>
+                            <span class="timeline-time">3 days ago</span>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>Course Enrolled</h4>
+                            <p>Advanced Web Development</p>
+                            <span class="timeline-time">1 week ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabId = this.dataset.tab;
+                
+                // Remove active class from all tabs and panes
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding pane
+                this.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    </script>
+}
