@@ -103,11 +103,11 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
-// Ensure database is created
+// Ensure database is created and seeded
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    context.Database.EnsureCreated();
+    await StudentDashboard.Data.DbSeeder.SeedAsync(context);
 }
 
 app.Run();

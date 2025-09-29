@@ -1,0 +1,10 @@
+wwwroot\images\avatar4.png
+wwwroot\images\avatar3.png
+wwwroot\images\avatar2.png
+wwwroot\images\avatar1.png
+wwwroot\images\avatar.png
+wwwroot\css\site.css
+wwwroot\css\profile.css
+wwwroot\css\courses.css
+wwwroot\images\uk-flag.png
+wwwroot\js\site.js

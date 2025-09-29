@@ -1,168 +1,148 @@
-# Student Dashboard - Full UI Project (.NET Core 8)
+# Student Dashboard
 
-A comprehensive student management system built with .NET Core 8, featuring a modern dashboard, authentication, real-time notifications, and full CRUD operations.
+A comprehensive ASP.NET Core 8.0 web application for managing student academic information, courses, assignments, and progress tracking.
 
-## 🚀 Features
+## Features
 
-### Core Dashboard
-- **Interactive Dashboard**: Real-time data visualization with charts and widgets
-- **Progress Tracking**: GPA monitoring, attendance tracking, homework management
-- **Calendar Integration**: Schedule management with daily/weekly views
-- **Leaderboard System**: Student rankings and achievements
-- **Course Management**: Enrollment, progress tracking, and course details
+### 🎓 Student Management
+- User registration and authentication with JWT
+- Student profile management
+- Academic progress tracking
+- GPA calculation and monitoring
 
-### Authentication & Security
-- **JWT Authentication**: Secure token-based authentication
-- **User Registration/Login**: Complete auth flow with validation
-- **Role-based Access**: Student, Admin, and Instructor roles
-- **Password Security**: BCrypt hashing for secure password storage
+### 📚 Course Management
+- Course enrollment and management
+- Course details and information
+- Instructor information
+- Course schedules and timetables
 
-### Real-time Features
-- **SignalR Integration**: Real-time notifications and updates
-- **Live Dashboard Updates**: Automatic data refresh
-- **Notification System**: In-app and email notifications
+### 📝 Assignment & Assessment
+- Assignment submission and tracking
+- Test and quiz management
+- Grade recording and feedback
+- Progress monitoring
 
-### Data Management
-- **Entity Framework Core**: Full ORM with SQL Server
-- **Database Migrations**: Automated schema management
-- **API Controllers**: RESTful API endpoints
-- **Data Validation**: Comprehensive input validation
+### 📊 Dashboard & Analytics
+- Interactive dashboard with charts and graphs
+- GPA progress tracking
+- Attendance monitoring
+- Homework and test statistics
+- Calendar integration
+- Leaderboard system
+- Rewards and achievements
 
-### UI/UX
-- **Responsive Design**: Mobile-first, works on all devices
-- **Modern Interface**: Clean, professional design
-- **Interactive Elements**: Hover effects, animations, modals
-- **Accessibility**: WCAG compliant design
+### 🔔 Notifications
+- Real-time notifications using SignalR
+- Assignment due date reminders
+- Grade posting notifications
+- Course announcements
 
-## 🛠️ Technology Stack
+### 🎨 Modern UI/UX
+- Responsive design for all devices
+- Interactive charts using Chart.js
+- Modern CSS with animations
+- Intuitive navigation
 
-### Backend
-- **.NET Core 8**: Latest framework with performance improvements
-- **Entity Framework Core 8**: ORM with SQL Server
-- **JWT Authentication**: Secure token-based auth
-- **SignalR**: Real-time communication
-- **AutoMapper**: Object mapping
-- **Serilog**: Structured logging
-- **Swagger**: API documentation
+## Technology Stack
 
-### Frontend
-- **HTML5/CSS3**: Modern web standards
-- **JavaScript ES6+**: Interactive functionality
-- **Chart.js**: Data visualization
-- **Font Awesome**: Icon library
-- **Responsive Grid**: CSS Grid and Flexbox
+- **Backend**: ASP.NET Core 8.0
+- **Database**: SQL Server with Entity Framework Core
+- **Authentication**: JWT Bearer tokens
+- **Frontend**: Razor Pages with HTML, CSS, JavaScript
+- **Real-time**: SignalR for notifications
+- **Charts**: Chart.js for data visualization
+- **Logging**: Serilog
+- **Password Hashing**: BCrypt
 
-### Database
-- **SQL Server LocalDB**: Development database
-- **Entity Framework Migrations**: Schema management
-- **Indexed Queries**: Optimized performance
-
-## 📁 Project Structure
-
-```
-StudentDashboard/
-├── Controllers/
-│   ├── AuthController.cs          # Authentication endpoints
-│   ├── DashboardController.cs     # Dashboard API
-│   ├── ProfileController.cs       # User profile management
-│   └── CoursesController.cs       # Course management
-├── Data/
-│   └── ApplicationDbContext.cs    # Entity Framework context
-├── Models/
-│   ├── DashboardModels.cs         # Dashboard view models
-│   └── EntityModels.cs            # Database entities
-├── Services/
-│   ├── AuthService.cs             # Authentication logic
-│   └── DashboardService.cs        # Dashboard business logic
-├── Hubs/
-│   └── NotificationHub.cs         # SignalR hub
-├── Views/
-│   ├── Home/
-│   │   └── Index.cshtml           # Main dashboard
-│   ├── Profile/
-│   │   └── Index.cshtml           # User profile page
-│   ├── Courses/
-│   │   └── Index.cshtml           # Courses management
-│   ├── Auth/
-│   │   └── Login.cshtml           # Login/Register page
-│   └── Shared/
-│       └── _Layout.cshtml         # Main layout
-├── wwwroot/
-│   ├── css/
-│   │   ├── site.css              # Main styles
-│   │   ├── profile.css           # Profile page styles
-│   │   └── courses.css           # Courses page styles
-│   ├── js/
-│   │   └── site.js               # JavaScript functionality
-│   └── images/                   # Static assets
-└── Program.cs                    # Application startup
-```
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
+
 - .NET 8.0 SDK
-- SQL Server LocalDB (or SQL Server)
+- SQL Server (LocalDB or full instance)
 - Visual Studio 2022 or VS Code
 
 ### Installation
 
-1. **Clone the repository:**
-```bash
-git clone <repository-url>
-cd StudentDashboard
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd StudentDashboard
+   ```
+
+2. **Update connection string**
+   Edit `appsettings.json` and update the connection string:
+   ```json
+   {
+     "ConnectionStrings": {
+       "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=StudentDashboardDb;Trusted_Connection=true;MultipleActiveResultSets=true"
+     }
+   }
+   ```
+
+3. **Restore packages**
+   ```bash
+   dotnet restore
+   ```
+
+4. **Run the application**
+   ```bash
+   dotnet run
+   ```
+
+5. **Access the application**
+   Open your browser and navigate to `https://localhost:5001` or `http://localhost:5000`
+
+### Default Login Credentials
+
+The application comes with pre-seeded data. You can use these credentials to log in:
+
+- **Student Account**: `john.doe@student.com` / `password123`
+- **Admin Account**: `admin@studentdashboard.com` / `admin123`
+
+## Project Structure
+
+```
+StudentDashboard/
+├── Controllers/          # API and MVC controllers
+├── Data/                # Entity Framework context and models
+├── Hubs/                # SignalR hubs for real-time features
+├── Models/              # Data models and view models
+├── Services/            # Business logic services
+├── Views/               # Razor views
+├── wwwroot/             # Static files (CSS, JS, images)
+├── Program.cs           # Application entry point
+└── appsettings.json     # Configuration
 ```
 
-2. **Restore dependencies:**
-```bash
-dotnet restore
-```
+## Key Features Explained
 
-3. **Update connection string** in `appsettings.json`:
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=StudentDashboardDb;Trusted_Connection=true;MultipleActiveResultSets=true"
-  }
-}
-```
+### Dashboard
+- **Progress GPA**: Interactive bar chart showing GPA progress over time
+- **Attendance**: Line chart displaying attendance percentage by month
+- **Homework**: Donut chart showing homework completion status
+- **Tests**: Donut chart displaying test performance
+- **Calendar**: Weekly calendar with schedule information
+- **Rating**: Student ranking within group and overall
+- **Course Info**: Current course details and payment information
+- **Rewards**: Recent achievements and points earned
+- **Leaderboard**: Student rankings and scores
 
-4. **Build the project:**
-```bash
-dotnet build
-```
+### Course Management
+- View enrolled courses
+- Course details and curriculum
+- Assignment and test schedules
+- Progress tracking
+- Enrollment in new courses
 
-5. **Run the application:**
-```bash
-dotnet run
-```
+### Profile Management
+- Personal information editing
+- Academic progress overview
+- Password change functionality
+- Avatar upload
+- Notification preferences
 
-6. **Open your browser:**
-```
-https://localhost:5001
-```
-
-## 📊 Database Schema
-
-### Core Entities
-- **Users**: User accounts and authentication
-- **Students**: Student-specific information
-- **Courses**: Course catalog and details
-- **Enrollments**: Student-course relationships
-- **Assignments**: Course assignments and homework
-- **Tests**: Examinations and quizzes
-- **Grades**: Academic performance tracking
-- **Attendance**: Class attendance records
-- **Notifications**: System notifications
-- **Rewards**: Achievement system
-- **Schedules**: Class schedules and timetables
-
-### Relationships
-- One-to-One: User ↔ Student
-- One-to-Many: Course → Enrollments, Assignments, Tests
-- Many-to-Many: Students ↔ Courses (via Enrollments)
-
-## 🔧 API Endpoints
+## API Endpoints
 
 ### Authentication
 - `POST /api/auth/login` - User login
@@ -177,92 +157,44 @@ https://localhost:5001
 - `GET /api/dashboard/tests` - Get test data
 - `GET /api/dashboard/calendar` - Get calendar data
 - `GET /api/dashboard/rating` - Get rating data
-- `GET /api/dashboard/course` - Get course info
+- `GET /api/dashboard/course` - Get course information
 - `GET /api/dashboard/rewards` - Get rewards data
 - `GET /api/dashboard/leaderboard` - Get leaderboard data
 
-### Profile Management
-- `GET /Profile` - Profile page
-- `POST /Profile/UpdateProfile` - Update profile
-- `POST /Profile/ChangePassword` - Change password
-- `POST /Profile/UploadAvatar` - Upload avatar
+### Courses
+- `GET /courses` - View all courses
+- `GET /courses/{id}` - View course details
+- `POST /courses/enroll` - Enroll in course
+- `POST /courses/{id}/complete` - Mark course as completed
 
-### Course Management
-- `GET /Courses` - Courses page
-- `GET /Courses/{id}` - Course details
-- `POST /Courses/enroll` - Enroll in course
-- `POST /Courses/{id}/complete` - Complete course
+### Profile
+- `GET /profile` - View profile
+- `POST /profile` - Update profile
+- `POST /profile/change-password` - Change password
+- `POST /profile/upload-avatar` - Upload avatar
 
-## 🎨 UI Components
+## Database Schema
 
-### Dashboard Widgets
-1. **Progress GPA**: Bar chart showing weekly GPA performance
-2. **Attendance**: Line chart with monthly attendance trends
-3. **Homework**: Donut chart with status breakdown
-4. **Tests**: Donut chart showing test results
-5. **Calendar**: Weekly view with daily schedule
-6. **Rating**: Student ranking system
-7. **Course Info**: Detailed course information
-8. **Rewards**: Recent achievements
-9. **Leaderboard**: Student rankings
+The application uses Entity Framework Core with the following main entities:
 
-### Interactive Features
-- **Real-time Updates**: Live data refresh
-- **Filter Controls**: Time period and category filters
-- **Modal Dialogs**: Course details and enrollment
-- **Form Validation**: Client and server-side validation
-- **File Upload**: Avatar and document upload
-- **Responsive Design**: Mobile-optimized interface
+- **User**: User accounts and authentication
+- **Student**: Student-specific information
+- **Course**: Course details and information
+- **Enrollment**: Student-course relationships
+- **Assignment**: Course assignments
+- **Submission**: Student assignment submissions
+- **Test**: Course tests and quizzes
+- **TestResult**: Student test results
+- **Grade**: Student grades and scores
+- **Attendance**: Class attendance records
+- **Notification**: System notifications
+- **Reward**: Student achievements and rewards
+- **Schedule**: Course schedules and timetables
 
-## 🔒 Security Features
-
-- **JWT Tokens**: Secure authentication
-- **Password Hashing**: BCrypt encryption
-- **Input Validation**: XSS and injection prevention
-- **CORS Configuration**: Cross-origin security
-- **SQL Injection Protection**: Parameterized queries
-- **File Upload Security**: Type and size validation
-
-## 📱 Responsive Design
-
-- **Mobile First**: Optimized for mobile devices
-- **Breakpoints**: 768px, 1024px, 1200px
-- **Flexible Grid**: CSS Grid and Flexbox
-- **Touch Friendly**: Large touch targets
-- **Progressive Enhancement**: Works without JavaScript
-
-## 🚀 Performance Optimizations
-
-- **Database Indexing**: Optimized queries
-- **Caching**: Response caching
-- **Minification**: CSS and JS minification
-- **Image Optimization**: Compressed assets
-- **Lazy Loading**: On-demand content loading
-- **CDN Integration**: External library delivery
-
-## 🧪 Testing
-
-### Manual Testing
-1. **Authentication Flow**: Login, registration, logout
-2. **Dashboard Functionality**: Widget interactions, data updates
-3. **Profile Management**: Update profile, change password
-4. **Course Management**: Enroll, view details, complete
-5. **Responsive Design**: Test on different screen sizes
-
-### API Testing
-Use Swagger UI at `https://localhost:5001/swagger` for API testing.
-
-## 📈 Monitoring & Logging
-
-- **Serilog Integration**: Structured logging
-- **File Logging**: Daily log files
-- **Console Logging**: Development debugging
-- **Error Tracking**: Exception handling
-- **Performance Monitoring**: Request timing
-
-## 🔧 Configuration
+## Configuration
 
 ### JWT Settings
+Configure JWT settings in `appsettings.json`:
 ```json
 {
   "JwtSettings": {
@@ -274,37 +206,35 @@ Use Swagger UI at `https://localhost:5001/swagger` for API testing.
 }
 ```
 
-### Database Connection
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=StudentDashboardDb;Trusted_Connection=true;MultipleActiveResultSets=true"
-  }
-}
-```
+### Logging
+The application uses Serilog for structured logging. Logs are written to:
+- Console output
+- File: `logs/student-dashboard-{date}.txt`
 
-## 🚀 Deployment
+## Development
 
-### Development
+### Adding New Features
+
+1. **Models**: Add new entities in `Models/EntityModels.cs`
+2. **Database**: Update `Data/ApplicationDbContext.cs` with new DbSets
+3. **Controllers**: Create new controllers in `Controllers/`
+4. **Services**: Add business logic in `Services/`
+5. **Views**: Create Razor views in `Views/`
+6. **API**: Add new endpoints as needed
+
+### Database Migrations
+
+To create a new migration:
 ```bash
-dotnet run
+dotnet ef migrations add MigrationName
 ```
 
-### Production
+To update the database:
 ```bash
-dotnet publish -c Release -o ./publish
+dotnet ef database update
 ```
 
-### Docker (Optional)
-```dockerfile
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
-COPY ./publish /app
-WORKDIR /app
-EXPOSE 80
-ENTRYPOINT ["dotnet", "StudentDashboard.dll"]
-```
-
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -312,25 +242,23 @@ ENTRYPOINT ["dotnet", "StudentDashboard.dll"]
 4. Add tests if applicable
 5. Submit a pull request
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🆘 Support
+## Support
 
-For questions or support:
-- Create an issue in the repository
-- Check the documentation
-- Review the API documentation at `/swagger`
+For support and questions, please contact the development team or create an issue in the repository.
 
-## 🔄 Version History
+## Changelog
 
-- **v1.0.0**: Initial release with core dashboard functionality
-- **v1.1.0**: Added authentication and user management
-- **v1.2.0**: Implemented real-time features with SignalR
-- **v1.3.0**: Added course management and profile features
-- **v2.0.0**: Full UI project with comprehensive features
-
----
-
-**Built with ❤️ using .NET Core 8**
+### Version 1.0.0
+- Initial release
+- Student dashboard with comprehensive features
+- JWT authentication
+- Real-time notifications
+- Interactive charts and analytics
+- Course management
+- Assignment and test tracking
+- Profile management
+- Responsive design
